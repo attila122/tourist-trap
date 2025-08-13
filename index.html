@@ -1,651 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tourist Trap or Not?</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: #f7f8fa;
-            min-height: 100vh;
-            padding: 20px 20px 0 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .main-content {
-            flex: 1;
-            padding-bottom: 40px;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        @media (max-width: 640px) {
-            .container {
-                max-width: 100%;
-            }
-        }
-
-        .hero-image {
-            width: 100%;
-            height: 280px;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), linear-gradient(45deg, #e0e0e0 25%, #d0d0d0 25%, #d0d0d0 50%, #e0e0e0 50%, #e0e0e0 75%, #d0d0d0 75%, #d0d0d0);
-            background-size: cover, 20px 20px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        @media (max-width: 640px) {
-            .hero-image {
-                height: 200px;
-            }
-        }
-
-        .hero-placeholder {
-            font-size: 64px;
-            filter: grayscale(100%);
-        }
-
-        .logo {
-            text-align: center;
-            color: #1a1a1a;
-            margin-bottom: 25px;
-        }
-
-        .logo h1 {
-            font-size: 36px;
-            margin-bottom: 8px;
-            font-weight: 900;
-        }
-
-        .logo p {
-            opacity: 0.6;
-            font-size: 16px;
-        }
-
-        @media (max-width: 640px) {
-            .logo h1 {
-                font-size: 28px;
-            }
-            .logo p {
-                font-size: 14px;
-            }
-        }
-
-        .location-btn {
-            background: white;
-            border: 2px solid #e0e0e0;
-            color: #1a1a1a;
-            padding: 14px 24px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 20px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .location-btn:hover {
-            border-color: #333;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .location-btn.loading {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .search-box {
-            background: white;
-            border-radius: 12px;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            margin-bottom: 25px;
-            border: 2px solid #e0e0e0;
-        }
-
-        .search-box input {
-            flex: 1;
-            border: none;
-            outline: none;
-            font-size: 16px;
-            padding-right: 10px;
-        }
-
-        .search-box button {
-            background: #1a1a1a;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .search-box button:hover {
-            background: #333;
-            transform: scale(1.05);
-        }
-
-        .result-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
-            animation: slideUp 0.3s ease;
-            border: 1px solid #e0e0e0;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .place-image {
-            width: 100%;
-            height: 240px;
-            background: linear-gradient(45deg, #f0f0f0 25%, #e8e8e8 25%, #e8e8e8 50%, #f0f0f0 50%, #f0f0f0 75%, #e8e8e8 75%, #e8e8e8);
-            background-size: 20px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        @media (max-width: 640px) {
-            .place-image {
-                height: 180px;
-            }
-        }
-
-        .place-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .place-image-placeholder {
-            color: #bdc3c7;
-            font-size: 48px;
-        }
-
-        .verdict-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 13px;
-            text-transform: uppercase;
-            backdrop-filter: blur(10px);
-            letter-spacing: 0.5px;
-        }
-
-        .verdict-trap {
-            background: rgba(239, 68, 68, 0.95);
-            color: white;
-        }
-
-        .verdict-safe {
-            background: rgba(34, 197, 94, 0.95);
-            color: white;
-        }
-
-        .verdict-caution {
-            background: rgba(245, 158, 11, 0.95);
-            color: white;
-        }
-
-        .card-content {
-            padding: 20px;
-        }
-
-        .place-name {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #1a1a1a;
-        }
-
-        .rating-row {
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .rating {
-            font-size: 32px;
-            font-weight: 800;
-        }
-
-        .rating-trap {
-            color: #ef4444;
-        }
-
-        .rating-safe {
-            color: #22c55e;
-        }
-
-        .rating-caution {
-            color: #f59e0b;
-        }
-
-        .review-count {
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        .quick-reasons {
-            border-top: 1px solid #f0f0f0;
-            padding-top: 15px;
-            margin-top: 15px;
-        }
-
-        .reason-tag {
-            display: inline-block;
-            background: #f3f4f6;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            margin: 3px;
-            color: #4b5563;
-            font-weight: 500;
-        }
-
-        .add-review-btn {
-            width: 100%;
-            background: #1a1a1a;
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: all 0.2s;
-        }
-
-        .add-review-btn:hover {
-            background: #333;
-            transform: translateY(-1px);
-        }
-
-        .quick-examples {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid #e0e0e0;
-        }
-
-        .quick-examples h3 {
-            color: #6b7280;
-            font-size: 13px;
-            margin-bottom: 10px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .example-btn {
-            background: #f9fafb;
-            color: #1a1a1a;
-            border: 1px solid #e5e7eb;
-            padding: 8px 14px;
-            border-radius: 8px;
-            margin: 4px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .example-btn:hover {
-            background: #1a1a1a;
-            color: white;
-            border-color: #1a1a1a;
-        }
-
-        .no-results {
-            text-align: center;
-            color: #6b7280;
-            padding: 40px 20px;
-            font-size: 15px;
-        }
-
-        .divider {
-            text-align: center;
-            color: #9ca3af;
-            margin: 20px 0;
-            font-size: 13px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .footer {
-            background: white;
-            border-top: 1px solid #e5e7eb;
-            padding: 30px 20px;
-            margin-top: auto;
-        }
-
-        .footer-content {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .footer-links {
-            margin-bottom: 15px;
-        }
-
-        .footer-links a {
-            color: #6b7280;
-            text-decoration: none;
-            font-size: 14px;
-            padding: 0 8px;
-            transition: color 0.2s;
-        }
-
-        .footer-links a:hover {
-            color: #1a1a1a;
-        }
-
-        .footer-separator {
-            color: #d1d5db;
-            font-size: 12px;
-        }
-
-        .footer-copyright {
-            color: #9ca3af;
-            font-size: 13px;
-        }
-
-        .footer-copyright p {
-            margin: 0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tourist Trap or Not?</title>
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body {font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;background:#f7f8fa;min-height:100vh;padding:20px 20px 0 20px;display:flex;flex-direction:column;}
+.main-content {flex:1;padding-bottom:40px;}
+.container {max-width:600px;margin:0 auto;}
+@media (max-width:640px){.container{max-width:100%;}}
+.hero-image {width:100%;height:280px;background:#e0e0e0;border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:30px;box-shadow:0 5px 20px rgba(0,0,0,0.1);}
+@media (max-width:640px){.hero-image{height:200px;}}
+.logo{text-align:center;color:#1a1a1a;margin-bottom:25px;}
+.logo h1{font-size:36px;margin-bottom:8px;font-weight:900;}
+.logo p{opacity:0.6;font-size:16px;}
+@media (max-width:640px){.logo h1{font-size:28px;}.logo p{font-size:14px;}}
+.location-btn{background:white;border:2px solid #e0e0e0;color:#1a1a1a;padding:14px 24px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:20px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+.location-btn:hover{border-color:#333;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+.location-btn.loading{opacity:0.7;cursor:not-allowed;}
+.search-box{background:white;border-radius:12px;padding:15px 20px;display:flex;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,0.05);margin-bottom:25px;border:2px solid #e0e0e0;}
+.search-box input{flex:1;border:none;outline:none;font-size:16px;padding-right:10px;}
+.search-box button{background:#1a1a1a;color:white;border:none;border-radius:8px;width:40px;height:40px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.search-box button:hover{background:#333;transform:scale(1.05);}
+.result-card{background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.08);margin-bottom:20px;animation:slideUp 0.3s ease;border:1px solid #e0e0e0;}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.place-image{width:100%;height:240px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;position:relative;}
+@media (max-width:640px){.place-image{height:180px;}}
+.place-image img{width:100%;height:100%;object-fit:cover;}
+.place-image-placeholder{color:#bdc3c7;font-size:48px;}
+.verdict-badge{position:absolute;top:15px;right:15px;padding:8px 16px;border-radius:8px;font-weight:700;font-size:13px;text-transform:uppercase;backdrop-filter:blur(10px);letter-spacing:0.5px;}
+.verdict-trap{background:rgba(239,68,68,0.95);color:white;}
+.verdict-safe{background:rgba(34,197,94,0.95);color:white;}
+.verdict-caution{background:rgba(245,158,11,0.95);color:white;}
+.card-content{padding:20px;}
+.place-name{font-size:20px;font-weight:700;margin-bottom:8px;color:#1a1a1a;}
+.rating-row{display:flex;align-items:baseline;gap:10px;margin-bottom:15px;}
+.rating{font-size:32px;font-weight:800;}
+.rating-trap{color:#ef4444;}
+.rating-safe{color:#22c55e;}
+.rating-caution{color:#f59e0b;}
+.review-count{color:#6b7280;font-size:14px;}
+.quick-reasons{border-top:1px solid #f0f0f0;padding-top:15px;margin-top:15px;}
+.reason-tag{display:inline-block;background:#f3f4f6;padding:6px 12px;border-radius:6px;font-size:12px;margin:3px;color:#4b5563;font-weight:500;}
+.add-review-btn{width:100%;background:#1a1a1a;color:white;border:none;padding:14px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-top:15px;transition:all 0.2s;}
+.add-review-btn:hover{background:#333;transform:translateY(-1px);}
+.quick-examples{background:white;border-radius:12px;padding:15px;margin-bottom:20px;border:1px solid #e0e0e0;}
+.quick-examples h3{color:#6b7280;font-size:13px;margin-bottom:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;}
+.example-btn{background:#f9fafb;color:#1a1a1a;border:1px solid #e5e7eb;padding:8px 14px;border-radius:8px;margin:4px;cursor:pointer;font-size:13px;font-weight:500;transition:all 0.2s;}
+.example-btn:hover{background:#1a1a1a;color:white;border-color:#1a1a1a;}
+.no-results{text-align:center;color:#6b7280;padding:40px 20px;font-size:15px;}
+.divider{text-align:center;color:#9ca3af;margin:20px 0;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;}
+.footer{background:white;border-top:1px solid #e5e7eb;padding:30px 20px;margin-top:auto;}
+.footer-content{max-width:600px;margin:0 auto;text-align:center;}
+.footer-links{margin-bottom:15px;}
+.footer-links a{color:#6b7280;text-decoration:none;font-size:14px;padding:0 8px;transition:color 0.2s;}
+.footer-links a:hover{color:#1a1a1a;}
+.footer-separator{color:#d1d5db;font-size:12px;}
+.footer-copyright{color:#9ca3af;font-size:13px;}
+.footer-copyright p{margin:0;}
+</style>
 </head>
 <body>
-    <div class="main-content">
-        <div class="container">
-            <div class="hero-image">
-            </div>
+<div class="main-content">
+<div class="container">
+<div class="hero-image">
+<img src="images/hero-restaurant.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:20px;">
+</div>
 
-            <div class="logo">
-                <h1>Tourist Trap or Not?</h1>
-                <p>Get instant verdict on any place, find out the reasons why users are saying it's tourist trap</p>
+<div class="logo">
+<h1>Tourist Trap or Not?</h1>
+<p>Get instant verdict on any place, find out why users say it's a tourist trap</p>
+</div>
 
-            </div>
+<button class="location-btn" onclick="getNearbyPlaces()">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+<circle cx="12" cy="10" r="3"/>
+</svg>
+<span id="locationText">Use My Location</span>
+</button>
 
-            <button class="location-btn" onclick="getNearbyPlaces()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                </svg>
-                <span id="locationText">Use My Location</span>
-            </button>
+<div class="divider">or search manually</div>
 
-            <div class="divider">or search manually</div>
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="Restaurant or place name...">
+<button onclick="checkPlace()">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<circle cx="11" cy="11" r="8"/>
+<path d="m21 21-4.35-4.35"/>
+</svg>
+</button>
+</div>
 
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Restaurant or place name...">
-                <button onclick="checkPlace()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"/>
-                        <path d="m21 21-4.35-4.35"/>
-                    </svg>
-                </button>
-            </div>
+<div class="quick-examples">
+<h3>Try these examples</h3>
+<button class="example-btn" onclick="searchExample('Times Square Grill')">Times Square Grill</button>
+<button class="example-btn" onclick="searchExample('Mama Rosa Venice')">Mama Rosa Venice</button>
+<button class="example-btn" onclick="searchExample('Local Burger Joint')">Local Burger Joint</button>
+</div>
 
-            <div class="quick-examples">
-                <h3>Try these examples</h3>
-                <button class="example-btn" onclick="searchExample('Times Square Grill')">Times Square Grill</button>
-                <button class="example-btn" onclick="searchExample('Mama Rosa Venice')">Mama Rosa Venice</button>
-                <button class="example-btn" onclick="searchExample('Local Burger Joint')">Local Burger Joint</button>
-            </div>
+<div id="results"><div class="no-results">Use location or search for a place</div></div>
+</div>
+</div>
 
-            <div id="results"></div>
-        </div>
-    </div>
+<footer class="footer">
+<div class="footer-content">
+<div class="footer-links">
+<a href="#faq">FAQ</a><span class="footer-separator">•</span>
+<a href="#about">About</a><span class="footer-separator">•</span>
+<a href="#contact">Contact</a><span class="footer-separator">•</span>
+<a href="#privacy">Privacy</a>
+</div>
+<div class="footer-copyright">
+<p>© 2025 Tourist Trap or Not. All rights reserved.</p>
+</div>
+</div>
+</footer>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="#faq">FAQ</a>
-                <span class="footer-separator">•</span>
-                <a href="#about">About</a>
-                <span class="footer-separator">•</span>
-                <a href="#contact">Contact</a>
-                <span class="footer-separator">•</span>
-                <a href="#privacy">Privacy</a>
-            </div>
-            <div class="footer-copyright">
-                <p>© 2025 Tourist Trap or Not. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Simulated database of places
-        const placesDB = {
-    'times square grill': {
-        name: 'Times Square Grill',
-        imageName: 'image1.jpg', 
-        status: 'trap',
-        rating: 2.1,
-        reviews: 847,
-        reasons: ['Overpriced', '2x local prices', 'Service charges', 'Low quality']
-    },
-    'mama rosa venice': {
-        name: 'Mama Rosa Venice',
-        imageName: 'image2.jpg',  // Remove 'images/' prefix
-        status: 'trap',
-        rating: 1.8,
-        reviews: 1243,
-        reasons: ['Tourist menu', 'Hidden fees', 'Aggressive tactics', 'Bad food']
-    },
-    'local burger joint': {
-        name: 'Local Burger Joint',
-        imageName: 'image3.jpg',  // Remove 'images/' prefix
-        status: 'safe',
-        rating: 4.6,
-        reviews: 423,
-        reasons: ['Fair prices', 'Local favorite', 'Quality food', 'Honest service']
-    },
-    'cafe de paris': {
-        name: 'Café de Paris',
-        imageName: 'cafe-de-paris.jpg',  // This one is already correct
-        status: 'caution',
-        rating: 3.2,
-        reviews: 567,
-        reasons: ['Mixed reviews', 'Tourist area', 'Slightly pricey', 'Hit or miss']
-    },
-    'joes pizza': {
-        name: "Joe's Pizza",
-        imageName: 'joes-pizza.jpg',  // This one is already correct
-        status: 'safe',
-        rating: 4.8,
-        reviews: 2103,
-        reasons: ['Authentic', 'Local prices', 'Always busy', 'Worth the wait']
-    }
+<script>
+// Places database
+const placesDB = {
+'times square grill': {name:'Times Square Grill', imageName:'image1.jpg', status:'trap', rating:2.1, reviews:847, reasons:['Overpriced','2x local prices','Service charges','Low quality']},
+'mama rosa venice': {name:'Mama Rosa Venice', imageName:'image2.jpg', status:'trap', rating:1.8, reviews:1243, reasons:['Tourist menu','Hidden fees','Aggressive tactics','Bad food']},
+'local burger joint': {name:'Local Burger Joint', imageName:'image3.jpg', status:'safe', rating:4.6, reviews:423, reasons:['Fair prices','Local favorite','Quality food','Honest service']},
+'cafe de paris': {name:'Café de Paris', imageName:'cafe-de-paris.jpg', status:'caution', rating:3.2, reviews:567, reasons:['Mixed reviews','Tourist area','Slightly pricey','Hit or miss']},
+'joes pizza': {name:"Joe's Pizza", imageName:'joes-pizza.jpg', status:'safe', rating:4.8, reviews:2103, reasons:['Authentic','Local prices','Always busy','Worth the wait']}
 };
 
-        // Simulated nearby places (would come from GPS/API in real app)
-        const nearbyPlaces = [
-            { name: 'Café de Paris', distance: '50m away' },
-            { name: 'Times Square Grill', distance: '120m away' },
-            { name: "Joe's Pizza", distance: '200m away' }
-        ];
+// Nearby places simulation
+const nearbyPlaces = [
+{name:'Café de Paris', distance:'50m away'},
+{name:'Times Square Grill', distance:'120m away'},
+{name:"Joe's Pizza", distance:'200m away'}
+];
 
-        function getNearbyPlaces() {
-            const btn = document.querySelector('.location-btn');
-            const locationText = document.getElementById('locationText');
-            const resultsDiv = document.getElementById('results');
-            
-            // Simulate loading
-            btn.classList.add('loading');
-            locationText.textContent = 'Finding nearby places...';
-            
-            setTimeout(() => {
-                btn.classList.remove('loading');
-                locationText.textContent = 'Use My Location';
-                
-                // Display nearby places
-                let nearbyHTML = '';
-                
-                nearbyPlaces.forEach(place => {
-                    const placeData = placesDB[place.name.toLowerCase()];
-                    if (placeData) {
-                        nearbyHTML += createResultCard(placeData, place.distance);
-                    }
-                });
-                
-                resultsDiv.innerHTML = nearbyHTML;
-            }, 1500);
-        }
+function getNearbyPlaces() {
+const btn = document.querySelector('.location-btn');
+const locationText = document.getElementById('locationText');
+const resultsDiv = document.getElementById('results');
 
-        function searchExample(name) {
-            document.getElementById('searchInput').value = name;
-            checkPlace();
-        }
+btn.classList.add('loading');
+locationText.textContent='Finding nearby places...';
 
-        function checkPlace() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-            const resultsDiv = document.getElementById('results');
-            
-            if (!searchTerm) {
-                resultsDiv.innerHTML = '<div class="no-results">Enter a place name to check</div>';
-                return;
-            }
+setTimeout(()=>{
+btn.classList.remove('loading');
+locationText.textContent='Use My Location';
 
-            // Search for the place
-            const place = placesDB[searchTerm];
-            
-            if (place) {
-                resultsDiv.innerHTML = createResultCard(place);
-            } else {
-                // Check for partial matches
-                const matches = Object.keys(placesDB).filter(key => key.includes(searchTerm));
-                if (matches.length > 0) {
-                    resultsDiv.innerHTML = createResultCard(placesDB[matches[0]]);
-                } else {
-                    resultsDiv.innerHTML = `
-                        <div class="result-card">
-                            <div class="place-image">
-            
-                            </div>
-                            <div class="card-content">
-                                <div class="place-name">${searchTerm}</div>
-                                <p style="color: #6b7280; margin: 15px 0;">No reviews yet</p>
-                                <button class="add-review-btn">Be the first to review</button>
-                            </div>
-                        </div>
-                    `;
-                }
-            }
-        }
+let nearbyHTML='';
+nearbyPlaces.forEach(place=>{
+const placeData = placesDB[place.name.toLowerCase()];
+if(placeData) nearbyHTML+=createResultCard(placeData,place.distance);
+});
+resultsDiv.innerHTML=nearbyHTML;
+},1500);
+}
 
-        function createResultCard(place, distance = null) {
-            let verdictClass = '';
-            let verdictText = '';
-            let ratingClass = '';
-            let emoji = '';
-            
-            if (place.status === 'trap') {
-                verdictClass = 'verdict-trap';
-                verdictText = 'Most likely a tourist trap';
-                ratingClass = 'rating-trap';
-                emoji = '❌';
-            } else if (place.status === 'safe') {
-                verdictClass = 'verdict-safe';
-                verdictText = 'Most likely not a tourist trap!';
-                ratingClass = 'rating-safe';
-                emoji = '✅';
-            } else {
-                verdictClass = 'verdict-caution';
-                verdictText = 'USE CAUTION';
-                ratingClass = 'rating-caution';
-                emoji = '⚠️';
-            }
-            
+function searchExample(name){document.getElementById('searchInput').value=name;checkPlace();}
 
-            
-            return 
-                <div class="result-card">
-                    <div class="place-image">
-                        ${imageContent}
-                        <div class="verdict-badge ${verdictClass}">${emoji} ${verdictText}</div>
-                    </div>
-                    <div class="card-content">
-                        <div class="place-name">
-                            ${place.name}
-                            ${distance ? `<span style="color: #6b7280; font-size: 14px; font-weight: normal;"> • ${distance}</span>` : ''}
-                        </div>
-                        <div class="rating-row">
-                            <div class="rating ${ratingClass}">${place.rating}</div>
-                            <div class="review-count">from ${place.reviews.toLocaleString()} reviews</div>
-                        </div>
-                        
-                        <div class="quick-reasons">
-                            ${place.reasons.map(reason => `<span class="reason-tag">${reason}</span>`).join('')}
-                        </div>
-                        
-                        <button class="add-review-btn">Add Your Review</button>
-                    </div>
-                </div>
-            `;
-        }
+function checkPlace(){
+const searchTerm=document.getElementById('searchInput').value.toLowerCase().trim();
+const resultsDiv=document.getElementById('results');
 
-        // Allow Enter key to search
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                checkPlace();
-            }
-        });
+if(!searchTerm){resultsDiv.innerHTML='<div class="no-results">Enter a place name to check</div>';return;}
 
-        // Initial state
-        document.getElementById('results').innerHTML = '<div class="no-results">Use location or search for a place</div>';
+const place=placesDB[searchTerm];
+if(place){resultsDiv.innerHTML=createResultCard(place);}
+else{
+const matches=Object.keys(placesDB).filter(key=>key.includes(searchTerm));
+if(matches.length>0){resultsDiv.innerHTML=createResultCard(placesDB[matches[0]]);}
+else{
+resultsDiv.innerHTML=`<div class="result-card"><div class="place-image"><div class="place-image-placeholder">📷</div></div><div class="card-content"><div class="place-name">${searchTerm}</div><p style="color:#6b7280;margin:15px 0;">No reviews yet</p><button class="add-review-btn">Be the first to review</button></div></div>`;
+}
+}
+}
 
-        // To replace hero image with actual image, uncomment:
-        document.querySelector('.hero-image').style.backgroundImage = 'url(images/hero-restaurant.jpg)';
-    </script>
+function createResultCard(place,distance=null){
+let verdictClass='',verdictText='',ratingClass='',emoji='';
+if(place.status==='trap'){verdictClass='verdict-trap';verdictText='Most likely a tourist trap';ratingClass='rating-trap';emoji='❌';}
+else if(place.status==='safe'){verdictClass='verdict-safe';verdictText='Most likely not a tourist trap!';ratingClass='rating-safe';emoji='✅';}
+else{verdictClass='verdict-caution';verdictText='USE CAUTION';ratingClass='rating-caution';emoji='⚠️';}
+
+const imageContent=place.imageName?`<img src="images/${place.imageName}" alt="${place.name}">`:`<div class="place-image-placeholder">📷</div>`;
+
+return`<div class="result-card"><div class="place-image">${imageContent}<div class="verdict-badge ${verdictClass}">${emoji} ${verdictText}</div></div><div class="card-content"><div class="place-name">${place.name}${distance?` <span style="color:#6b7280;font-size:14px;font-weight:normal;">• ${distance}</span>`:''}</div><div class="rating-row"><div class="rating ${ratingClass}">${place.rating}</div><div class="review-count">from ${place.reviews.toLocaleString()} reviews</div></div><div class="quick-reasons">${place.reasons.map(reason=>`<span class="reason-tag">${reason}</span>`).join('')}</div><button class="add-review-btn">Add Your Review</button></div></div>`;
+}
+
+// Enter key triggers search
+document.getElementById('searchInput').addEventListener('keypress',function(e){if(e.key==='Enter')checkPlace();});
+</script>
 </body>
 </html>
