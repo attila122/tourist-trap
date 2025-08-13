@@ -407,12 +407,12 @@
     <div class="main-content">
         <div class="container">
             <div class="hero-image">
-                <div class="hero-placeholder">🍽️</div>
             </div>
 
             <div class="logo">
                 <h1>Tourist Trap or Not?</h1>
-                <p>Get instant verdict on any place</p>
+                <p>Get instant verdict on any place, find out the reasons why users are saying it's tourist trap</p>
+
             </div>
 
             <button class="location-btn" onclick="getNearbyPlaces()">
@@ -570,7 +570,7 @@
                     resultsDiv.innerHTML = `
                         <div class="result-card">
                             <div class="place-image">
-                                <div class="place-image-placeholder">🍽️</div>
+            
                             </div>
                             <div class="card-content">
                                 <div class="place-name">${searchTerm}</div>
@@ -606,13 +606,9 @@
                 emoji = '⚠️';
             }
             
-            // Check if image exists, otherwise use placeholder
-            const imageContent = place.imageName 
-                ? `<img src="images/${place.imageName}" alt="${place.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                   <div class="place-image-placeholder" style="display:none;">🍽️</div>`
-                : `<div class="place-image-placeholder">🍽️</div>`;
+
             
-            return `
+            return 
                 <div class="result-card">
                     <div class="place-image">
                         ${imageContent}
