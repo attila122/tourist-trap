@@ -15,7 +15,14 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             background: #f7f8fa;
             min-height: 100vh;
-            padding: 20px;
+            padding: 20px 20px 0 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
+            padding-bottom: 40px;
         }
 
         .container {
@@ -352,48 +359,109 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+        .footer {
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            padding: 30px 20px;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 0 8px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #1a1a1a;
+        }
+
+        .footer-separator {
+            color: #d1d5db;
+            font-size: 12px;
+        }
+
+        .footer-copyright {
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .footer-copyright p {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="hero-image">
-            <div class="hero-placeholder">🍽️</div>
-        </div>
+    <div class="main-content">
+        <div class="container">
+            <div class="hero-image">
+                <div class="hero-placeholder">🍽️</div>
+            </div>
 
-        <div class="logo">
-            <h1>Tourist Trap or Not?</h1>
-            <p>Get instant verdict on any place</p>
-        </div>
+            <div class="logo">
+                <h1>Tourist Trap or Not?</h1>
+                <p>Get instant verdict on any place</p>
+            </div>
 
-        <button class="location-btn" onclick="getNearbyPlaces()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                <circle cx="12" cy="10" r="3"/>
-            </svg>
-            <span id="locationText">Use My Location</span>
-        </button>
-
-        <div class="divider">or search manually</div>
-
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Restaurant or place name...">
-            <button onclick="checkPlace()">
+            <button class="location-btn" onclick="getNearbyPlaces()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8"/>
-                    <path d="m21 21-4.35-4.35"/>
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
                 </svg>
+                <span id="locationText">Use My Location</span>
             </button>
-        </div>
 
-        <div class="quick-examples">
-            <h3>Try these examples</h3>
-            <button class="example-btn" onclick="searchExample('Times Square Grill')">Times Square Grill</button>
-            <button class="example-btn" onclick="searchExample('Mama Rosa Venice')">Mama Rosa Venice</button>
-            <button class="example-btn" onclick="searchExample('Local Burger Joint')">Local Burger Joint</button>
-        </div>
+            <div class="divider">or search manually</div>
 
-        <div id="results"></div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Restaurant or place name...">
+                <button onclick="checkPlace()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="quick-examples">
+                <h3>Try these examples</h3>
+                <button class="example-btn" onclick="searchExample('Times Square Grill')">Times Square Grill</button>
+                <button class="example-btn" onclick="searchExample('Mama Rosa Venice')">Mama Rosa Venice</button>
+                <button class="example-btn" onclick="searchExample('Local Burger Joint')">Local Burger Joint</button>
+            </div>
+
+            <div id="results"></div>
+        </div>
     </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#faq">FAQ</a>
+                <span class="footer-separator">•</span>
+                <a href="#about">About</a>
+                <span class="footer-separator">•</span>
+                <a href="#contact">Contact</a>
+                <span class="footer-separator">•</span>
+                <a href="#privacy">Privacy</a>
+            </div>
+            <div class="footer-copyright">
+                <p>© 2025 Tourist Trap or Not. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
         // Simulated database of places
