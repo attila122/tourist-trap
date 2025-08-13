@@ -468,7 +468,7 @@
         const placesDB = {
             'times square grill': {
                 name: 'Times Square Grill',
-                imageName: 'times-square-grill.jpg',
+                imageName: 'images/image1.jpg',
                 status: 'trap',
                 rating: 2.1,
                 reviews: 847,
@@ -476,7 +476,7 @@
             },
             'mama rosa venice': {
                 name: 'Mama Rosa Venice',
-                imageName: 'mama-rosa-venice.jpg',
+                imageName: 'images/image2.jpg',
                 status: 'trap',
                 rating: 1.8,
                 reviews: 1243,
@@ -484,7 +484,7 @@
             },
             'local burger joint': {
                 name: 'Local Burger Joint',
-                imageName: 'local-burger-joint.jpg',
+                imageName: 'images/image3.jpg',
                 status: 'safe',
                 rating: 4.6,
                 reviews: 423,
@@ -591,12 +591,12 @@
             
             if (place.status === 'trap') {
                 verdictClass = 'verdict-trap';
-                verdictText = 'TOURIST TRAP';
+                verdictText = 'Most likely a tourist trap';
                 ratingClass = 'rating-trap';
                 emoji = '❌';
             } else if (place.status === 'safe') {
                 verdictClass = 'verdict-safe';
-                verdictText = 'NOT A TRAP';
+                verdictText = 'Most likely not a tourist trap!';
                 ratingClass = 'rating-safe';
                 emoji = '✅';
             } else {
