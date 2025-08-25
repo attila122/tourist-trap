@@ -13,8 +13,12 @@
                 extend: {
                     colors: {
                         primary: {
-                            DEFAULT: '#1E40AF',
-                            dark: '#1E3A8A'
+                            DEFAULT: '#2563EB',
+                            dark: '#1D4ED8'
+                        },
+                        secondary: {
+                            DEFAULT: '#7C3AED',
+                            dark: '#6D28D9'
                         },
                         danger: {
                             DEFAULT: '#DC2626',
@@ -27,7 +31,14 @@
                         success: {
                             DEFAULT: '#059669',
                             dark: '#047857'
+                        },
+                        dark: {
+                            DEFAULT: '#1F2937',
+                            dark: '#111827'
                         }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
                     },
                     animation: {
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -38,6 +49,8 @@
         }
     </script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -46,89 +59,145 @@
             animation: fadeIn 0.5s ease-out forwards;
         }
         .card-hover {
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .card-hover:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .mobile-menu.open {
+            max-height: 500px;
+        }
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(90deg, #2563EB, #7C3AED);
+        }
+        .testimonial-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.95) 100%);
+            backdrop-filter: blur(10px);
         }
     </style>
 </head>
-<body class="min-h-screen bg-gray-50 flex flex-col">
-    <header class="bg-white shadow-sm">
+<body class="min-h-screen bg-gray-50 font-sans flex flex-col">
+    <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-2">
+                <a href="#" class="flex items-center space-x-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                     </svg>
-                    <h1 class="text-xl font-bold text-gray-800">Tourist Trap or Not?</h1>
-                </div>
-                <nav class="hidden md:flex space-x-6">
-                    <a href="#how-it-works" class="text-gray-600 hover:text-primary font-medium">How It Works</a>
-                    <a href="#faq" class="text-gray-600 hover:text-primary font-medium">FAQ</a>
-                    <a href="#about" class="text-gray-600 hover:text-primary font-medium">About</a>
+                    <h1 class="text-xl font-bold text-gray-800">Tourist Trap <span class="gradient-text font-extrabold">or Not?</span></h1>
+                </a>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#how-it-works" class="text-gray-600 hover:text-primary font-medium transition-colors">How It Works</a>
+                    <a href="#testimonials" class="text-gray-600 hover:text-primary font-medium transition-colors">Testimonials</a>
+                    <a href="#faq" class="text-gray-600 hover:text-primary font-medium transition-colors">FAQ</a>
+                    <a href="#about" class="text-gray-600 hover:text-primary font-medium transition-colors">About</a>
                 </nav>
-                <button class="md:hidden text-gray-600">
+                <button id="mobileMenuBtn" class="md:hidden text-gray-600 focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
             </div>
+            <div id="mobileMenu" class="mobile-menu md:hidden">
+                <div class="pt-4 pb-2 space-y-3">
+                    <a href="#how-it-works" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors">How It Works</a>
+                    <a href="#testimonials" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors">Testimonials</a>
+                    <a href="#faq" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors">FAQ</a>
+                    <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors">About</a>
+                </div>
+            </div>
         </div>
     </header>
 
     <main class="flex-grow">
-        <section class="py-8 md:py-12">
-            <div class="container mx-auto px-4 max-w-3xl">
-                <div class="bg-white rounded-2xl shadow-md overflow-hidden mb-8">
-                    <img src="images/hero-restaurant.jpg" alt="Travel destination with people exploring" class="w-full h-64 md:h-80 object-cover" loading="lazy">
+        <section class="py-12 md:py-20 bg-gradient-to-b from-white to-gray-50">
+            <div class="container mx-auto px-4 max-w-6xl">
+                <div class="flex flex-col lg:flex-row items-center gap-12">
+                    <div class="lg:w-1/2">
+                        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                            Discover <span class="gradient-text">Authentic</span> Travel Experiences
+                        </h1>
+                        <p class="text-xl text-gray-600 mb-8">
+                            Avoid overpriced tourist traps and find hidden gems loved by locals. Our community-powered platform helps you experience destinations like a true insider.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="#search" class="bg-primary hover:bg-primary-dark text-white font-medium py-3 px-6 rounded-lg transition duration-200 text-center shadow-md hover:shadow-lg">
+                                Start Exploring
+                            </a>
+                            <a href="#how-it-works" class="bg-white hover:bg-gray-100 text-gray-800 font-medium py-3 px-6 rounded-lg transition duration-200 text-center border border-gray-200 shadow-sm hover:shadow-md">
+                                How It Works
+                            </a>
+                        </div>
+                    </div>
+                    <div class="lg:w-1/2 mt-10 lg:mt-0">
+                        <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform rotate-1">
+                            <img src="images/hero-restaurant.jpg" alt="Happy travelers enjoying authentic local cuisine at a hidden gem restaurant" class="w-full h-auto object-cover" loading="lazy">
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="text-center mb-8">
-                    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Tourist Trap or Not?</h1>
+        <section id="search" class="py-12 md:py-16 bg-white">
+            <div class="container mx-auto px-4 max-w-3xl">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Find Your Next Adventure</h2>
                     <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Get instant crowd-sourced verdicts on any place. Discover authentic local spots and avoid tourist traps.
+                        Search any place to see if it's a tourist trap or an authentic local favorite.
                     </p>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-                    <button id="locationBtn" class="w-full flex items-center justify-center space-x-3 bg-primary hover:bg-primary-dark text-white font-medium py-3 px-6 rounded-lg transition duration-200 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        <span id="locationText">Use My Location</span>
-                    </button>
-
-                    <div class="flex items-center my-4">
-                        <div class="flex-grow border-t border-gray-200"></div>
-                        <span class="mx-4 text-sm text-gray-500">or search manually</span>
-                        <div class="flex-grow border-t border-gray-200"></div>
-                    </div>
-
-                    <div class="flex">
-                        <input type="text" id="searchInput" placeholder="Restaurant, attraction, or place name..." 
-                            class="flex-grow px-4 py-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                        <button id="searchBtn" class="bg-primary hover:bg-primary-dark text-white px-4 py-3 rounded-r-lg transition duration-200">
+                <div class="bg-gradient-to-r from-primary to-secondary p-1 rounded-xl shadow-lg mb-6">
+                    <div class="bg-white rounded-xl p-6">
+                        <button id="locationBtn" class="w-full flex items-center justify-center space-x-3 bg-gradient-to-r from-primary to-secondary hover:from-primary-dark hover:to-secondary-dark text-white font-medium py-3 px-6 rounded-lg transition duration-200 mb-4 shadow-md hover:shadow-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
+                            <span id="locationText">Use My Location</span>
                         </button>
+
+                        <div class="flex items-center my-4">
+                            <div class="flex-grow border-t border-gray-200"></div>
+                            <span class="mx-4 text-sm text-gray-500">or search manually</span>
+                            <div class="flex-grow border-t border-gray-200"></div>
+                        </div>
+
+                        <div class="flex">
+                            <input type="text" id="searchInput" placeholder="Restaurant, attraction, or place name..." 
+                                class="flex-grow px-4 py-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <button id="searchBtn" class="bg-gradient-to-r from-primary to-secondary hover:from-primary-dark hover:to-secondary-dark text-white px-5 py-3 rounded-r-lg transition duration-200 shadow-md hover:shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-xl shadow-md p-6 mb-8">
-                    <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">Try these examples</h3>
+                    <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">Popular searches</h3>
                     <div class="flex flex-wrap gap-2">
-                        <button onclick="searchExample('Times Square Grill')" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition duration-200">
+                        <button onclick="searchExample('Times Square Grill')" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition duration-200 shadow-sm hover:shadow">
                             Times Square Grill
                         </button>
-                        <button onclick="searchExample('Mama Rosa Venice')" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition duration-200">
+                        <button onclick="searchExample('Mama Rosa Venice')" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition duration-200 shadow-sm hover:shadow">
                             Mama Rosa Venice
                         </button>
-                        <button onclick="searchExample('Local Burger Joint')" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition duration-200">
+                        <button onclick="searchExample('Local Burger Joint')" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition duration-200 shadow-sm hover:shadow">
                             Local Burger Joint
+                        </button>
+                        <button onclick="searchExample('Café de Paris')" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition duration-200 shadow-sm hover:shadow">
+                            Café de Paris
                         </button>
                     </div>
                 </div>
@@ -144,342 +213,275 @@
                 </div>
             </div>
         </section>
-    </main>
 
-    <section id="how-it-works" class="bg-gradient-to-b from-white to-gray-50 py-16 md:py-20">
-        <div class="container mx-auto px-4 max-w-6xl">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">How It Works</h2>
-                <p class="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">Quickly gauge if a spot is an authentic gem or a tourist trap.</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-white rounded-2xl shadow-md p-6 card-hover">
-                    <div class="h-12 w-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
-                        <i class="fas fa-search text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Search any place</h3>
-                    <p class="text-gray-600">Use your location or type a restaurant, cafe, or attraction.</p>
+        <section id="how-it-works" class="py-16 md:py-24 bg-gradient-to-b from-white to-gray-50">
+            <div class="container mx-auto px-4 max-w-6xl">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">How It Works</h2>
+                    <p class="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">Our simple three-step process helps you identify authentic experiences and avoid tourist traps.</p>
                 </div>
-                <div class="bg-white rounded-2xl shadow-md p-6 card-hover">
-                    <div class="h-12 w-12 rounded-xl bg-warning/10 text-warning flex items-center justify-center mb-4">
-                        <i class="fas fa-balance-scale text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">See the verdict</h3>
-                    <p class="text-gray-600">Crowd-sourced signal: Authentic, Caution, or Tourist Trap.</p>
-                </div>
-                <div class="bg-white rounded-2xl shadow-md p-6 card-hover">
-                    <div class="h-12 w-12 rounded-xl bg-success/10 text-success flex items-center justify-center mb-4">
-                        <i class="fas fa-heart text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Choose better</h3>
-                    <p class="text-gray-600">Avoid traps and discover places locals actually love.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="faq" class="py-16 md:py-20">
-        <div class="container mx-auto px-4 max-w-4xl">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">FAQ</h2>
-                <p class="mt-3 text-lg text-gray-600">Answers to common questions.</p>
-            </div>
-            <div class="space-y-4">
-                <details class="group bg-white rounded-xl shadow-md p-6">
-                    <summary class="flex cursor-pointer list-none items-center justify-between">
-                        <span class="text-lg font-semibold text-gray-900">How do you determine a tourist trap?</span>
-                        <span class="ml-4 transition-transform group-open:rotate-180 text-gray-500">
-                            <i class="fas fa-chevron-down"></i>
-                        </span>
-                    </summary>
-                    <div class="mt-4 text-gray-600">
-                        We aggregate signals like pricing, location, user reviews, and transparency to classify places.
-                    </div>
-                </details>
-                <details class="group bg-white rounded-xl shadow-md p-6">
-                    <summary class="flex cursor-pointer list-none items-center justify-between">
-                        <span class="text-lg font-semibold text-gray-900">Can I contribute a review?</span>
-                        <span class="ml-4 transition-transform group-open:rotate-180 text-gray-500">
-                            <i class="fas fa-chevron-down"></i>
-                        </span>
-                    </summary>
-                    <div class="mt-4 text-gray-600">
-                        Yes. Click "Add Review" on any result card to share your experience.
-                    </div>
-                </details>
-                <details class="group bg-white rounded-xl shadow-md p-6">
-                    <summary class="flex cursor-pointer list-none items-center justify-between">
-                        <span class="text-lg font-semibold text-gray-900">Is this available offline?</span>
-                        <span class="ml-4 transition-transform group-open:rotate-180 text-gray-500">
-                            <i class="fas fa-chevron-down"></i>
-                        </span>
-                    </summary>
-                    <div class="mt-4 text-gray-600">
-                        Not yet. We plan to add offline support in a future update.
-                    </div>
-                </details>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="bg-gray-50 py-12">
-        <div class="container mx-auto px-4 max-w-4xl">
-            <h2 class="text-2xl font-bold text-gray-900 mb-3">About</h2>
-            <p class="text-gray-600">Tourist Trap or Not helps travelers find authentic places and avoid overpriced traps.</p>
-        </div>
-    </section>
-    <section id="contact" class="py-12">
-        <div class="container mx-auto px-4 max-w-4xl">
-            <h2 class="text-2xl font-bold text-gray-900 mb-3">Contact</h2>
-            <p class="text-gray-600">Questions or feedback? Email us at <a class="text-primary hover:text-primary-dark underline" href="mailto:hello@example.com">hello@example.com</a>.</p>
-        </div>
-    </section>
-    <section id="privacy" class="bg-gray-50 py-12">
-        <div class="container mx-auto px-4 max-w-4xl">
-            <h2 class="text-2xl font-bold text-gray-900 mb-3">Privacy</h2>
-            <p class="text-gray-600">We value your privacy and only use data to improve your experience.</p>
-        </div>
-    </section>
-
-    <footer class="bg-white border-t border-gray-200 py-8">
-        <div class="container mx-auto px-4 max-w-6xl">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center space-x-2 mb-4 md:mb-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                    </svg>
-                    <span class="font-bold text-gray-800">Tourist Trap or Not?</span>
-                </div>
-                <div class="flex flex-wrap justify-center space-x-4 md:space-x-6 mb-4 md:mb-0">
-                    <a href="#how-it-works" class="text-gray-600 hover:text-primary">How It Works</a>
-                    <a href="#faq" class="text-gray-600 hover:text-primary">FAQ</a>
-                    <a href="#about" class="text-gray-600 hover:text-primary">About</a>
-                    <a href="#contact" class="text-gray-600 hover:text-primary">Contact</a>
-                    <a href="#privacy" class="text-gray-600 hover:text-primary">Privacy</a>
-                </div>
-                <div class="text-sm text-gray-500">
-                    © 2023 Tourist Trap or Not. All rights reserved.
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Enhanced places database with more details
-        const placesDB = {
-            'times square grill': {
-                name: 'Times Square Grill',
-                image: 'images/image1.jpg',
-                status: 'trap',
-                rating: 2.1,
-                reviews: 847,
-                reasons: ['Overpriced', '2x local prices', 'Service charges', 'Low quality'],
-                description: 'Known for aggressive marketing to tourists with inflated prices and mediocre food quality.',
-                distance: '120m away'
-            },
-            'mama rosa venice': {
-                name: 'Mama Rosa Venice',
-                image: 'images/image2.jpg',
-                status: 'trap',
-                rating: 1.8,
-                reviews: 1243,
-                reasons: ['Tourist menu', 'Hidden fees', 'Aggressive tactics', 'Bad food'],
-                description: 'Famous for having different menus and prices for tourists versus locals.',
-                distance: '250m away'
-            },
-            'local burger joint': {
-                name: 'Local Burger Joint',
-                image: 'images/image3.jpg',
-                status: 'safe',
-                rating: 4.6,
-                reviews: 423,
-                reasons: ['Fair prices', 'Local favorite', 'Quality food', 'Honest service'],
-                description: 'A beloved spot among locals with consistently good food at reasonable prices.',
-                distance: '350m away'
-            },
-            'cafe de paris': {
-                name: 'Café de Paris',
-                image: 'images/image1.jpg',
-                status: 'caution',
-                rating: 3.2,
-                reviews: 567,
-                reasons: ['Mixed reviews', 'Tourist area', 'Slightly pricey', 'Hit or miss'],
-                description: 'Some tourists enjoy it, but locals say you can find better quality for the price elsewhere.',
-                distance: '50m away'
-            },
-            'joes pizza': {
-                name: "Joe's Pizza",
-                image: 'images/image2.jpg',
-                status: 'safe',
-                rating: 4.8,
-                reviews: 2103,
-                reasons: ['Authentic', 'Local prices', 'Always busy', 'Worth the wait'],
-                description: 'A true local institution with authentic flavors and fair prices despite its popularity.',
-                distance: '200m away'
-            }
-        };
-
-        // Nearby places simulation
-        const nearbyPlaces = [
-            'cafe de paris',
-            'times square grill',
-            'joes pizza'
-        ];
-
-        // DOM elements
-        const locationBtn = document.getElementById('locationBtn');
-        const locationText = document.getElementById('locationText');
-        const searchInput = document.getElementById('searchInput');
-        const searchBtn = document.getElementById('searchBtn');
-        const resultsDiv = document.getElementById('results');
-
-        // Event listeners
-        locationBtn.addEventListener('click', getNearbyPlaces);
-        searchBtn.addEventListener('click', checkPlace);
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') checkPlace();
-        });
-
-        // Functions
-        function getNearbyPlaces() {
-            locationBtn.classList.add('opacity-75', 'cursor-not-allowed');
-            locationText.textContent = 'Finding nearby places...';
-            
-            // Simulate API call delay
-            setTimeout(() => {
-                locationBtn.classList.remove('opacity-75', 'cursor-not-allowed');
-                locationText.textContent = 'Use My Location';
-                
-                let nearbyHTML = '';
-                nearbyPlaces.forEach(placeId => {
-                    const place = placesDB[placeId];
-                    if (place) nearbyHTML += createResultCard(place);
-                });
-                
-                resultsDiv.innerHTML = nearbyHTML;
-            }, 1500);
-        }
-
-        function searchExample(name) {
-            searchInput.value = name;
-            checkPlace();
-        }
-
-        function checkPlace() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            
-            if (!searchTerm) {
-                resultsDiv.innerHTML = `
-                    <div class="bg-white rounded-xl shadow-md p-8 text-center fade-in">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
-                        <h3 class="text-lg font-medium text-gray-700 mb-2">Enter a place name</h3>
-                        <p class="text-gray-500">Please enter a restaurant, attraction, or place name to check.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            const place = placesDB[searchTerm];
-            if (place) {
-                resultsDiv.innerHTML = createResultCard(place);
-            } else {
-                // Fuzzy search for partial matches
-                const matches = Object.keys(placesDB).filter(key => 
-                    key.includes(searchTerm) || placesDB[key].name.toLowerCase().includes(searchTerm)
-                );
-                
-                if (matches.length > 0) {
-                    resultsDiv.innerHTML = createResultCard(placesDB[matches[0]]);
-                } else {
-                    resultsDiv.innerHTML = `
-                        <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover fade-in">
-                            <div class="h-48 bg-gray-100 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-2xl shadow-lg p-8 card-hover">
+                        <div class="h-16 w-16 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 text-2xl">
+                            <span class="font-bold">1</span>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-4">Search Any Place</h3>
+                        <p class="text-gray-600 mb-4">Use your current location or search for any restaurant, cafe, attraction, or activity in our database.</p>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                 </svg>
-                            </div>
-                            <div class="p-6">
-                                <h3 class="text-xl font-bold text-gray-900 mb-2">${searchInput.value}</h3>
-                                <p class="text-gray-600 mb-4">No reviews yet for this place.</p>
-                                <button class="w-full bg-primary hover:bg-primary-dark text-white font-medium py-2 px-4 rounded-lg transition duration-200">
-                                    Be the first to review
-                                </button>
+                                <span>Search by name or category</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span>See nearby suggestions</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-8 card-hover">
+                        <div class="h-16 w-16 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-6 text-2xl">
+                            <span class="font-bold">2</span>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-4">Get the Verdict</h3>
+                        <p class="text-gray-600 mb-4">Our algorithm analyzes crowd-sourced data to classify each place into one of three categories:</p>
+                        <ul class="space-y-3 text-gray-600">
+                            <li class="flex items-start">
+                                <span class="bg-success text-white text-xs font-bold px-2 py-1 rounded mr-2">Authentic</span>
+                                <span>Genuine local favorite</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-warning text-white text-xs font-bold px-2 py-1 rounded mr-2">Caution</span>
+                                <span>Mixed reviews, some concerns</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-danger text-white text-xs font-bold px-2 py-1 rounded mr-2">Trap</span>
+                                <span>Known tourist trap</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-8 card-hover">
+                        <div class="h-16 w-16 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 text-2xl">
+                            <span class="font-bold">3</span>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-4">Explore With Confidence</h3>
+                        <p class="text-gray-600 mb-4">Make informed decisions and discover amazing places that locals actually recommend.</p>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span>See detailed reviews</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span>Compare alternatives</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span>Save your favorites</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-4 max-w-6xl">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Travelers Love Us</h2>
+                    <p class="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">Join thousands of travelers who avoid tourist traps and find authentic experiences.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="testimonial-card rounded-2xl shadow-lg p-8 relative overflow-hidden">
+                        <div class="absolute -right-10 -top-10 h-32 w-32 bg-primary/10 rounded-full"></div>
+                        <div class="flex items-center mb-6">
+                            <img src="images/testimonial1.jpg" alt="Sarah J. smiling traveler with backpack in front of famous landmark" class="h-16 w-16 rounded-full object-cover mr-4 border-2 border-white shadow">
+                            <div>
+                                <h4 class="font-bold text-gray-900">Sarah J.</h4>
+                                <div class="flex items-center">
+                                    <div class="flex text-yellow-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    </div>
+                                    <span class="text-gray-500 text-sm ml-2">Verified traveler</span>
+                                </div>
                             </div>
                         </div>
-                    `;
-                }
-            }
-        }
-
-        function createResultCard(place) {
-            let statusClass, statusText, ratingClass, emoji;
-            
-            switch(place.status) {
-                case 'trap':
-                    statusClass = 'bg-danger hover:bg-danger-dark';
-                    statusText = 'Tourist Trap';
-                    ratingClass = 'text-danger';
-                    emoji = '❌';
-                    break;
-                case 'safe':
-                    statusClass = 'bg-success hover:bg-success-dark';
-                    statusText = 'Authentic Spot';
-                    ratingClass = 'text-success';
-                    emoji = '✅';
-                    break;
-                case 'caution':
-                    statusClass = 'bg-warning hover:bg-warning-dark';
-                    statusText = 'Use Caution';
-                    ratingClass = 'text-warning';
-                    emoji = '⚠️';
-                    break;
-            }
-
-            return `
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover fade-in">
-                    <div class="relative h-48 md:h-56">
-                        <img src="${place.image}" alt="${place.name}" class="w-full h-full object-cover" loading="lazy">
-                        <div class="absolute top-4 right-4 ${statusClass} text-white px-3 py-1 rounded-full text-sm font-bold flex items-center">
-                            ${emoji} ${statusText}
+                        <p class="text-gray-700 italic mb-4">"This app saved me from wasting $200 on a terrible 'authentic' dinner in Rome. The reviews were spot on and led me to an amazing family-run trattoria instead!"</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Visited Italy, June 2023</span>
                         </div>
                     </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-xl font-bold text-gray-900">${place.name}</h3>
-                            ${place.distance ? `<span class="text-sm text-gray-500">${place.distance}</span>` : ''}
+                    <div class="testimonial-card rounded-2xl shadow-lg p-8 relative overflow-hidden">
+                        <div class="absolute -left-10 -bottom-10 h-32 w-32 bg-secondary/10 rounded-full"></div>
+                        <div class="flex items-center mb-6">
+                            <img src="images/testimonial2.jpg" alt="Michael T. traveler enjoying local street food at night market" class="h-16 w-16 rounded-full object-cover mr-4 border-2 border-white shadow">
+                            <div>
+                                <h4 class="font-bold text-gray-900">Michael T.</h4>
+                                <div class="flex items-center">
+                                    <div class="flex text-yellow-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    </div>
+                                    <span class="text-gray-500 text-sm ml-2">Verified traveler</span>
+                                </div>
+                            </div>
                         </div>
-                        
-                        <div class="flex items-center mb-4">
-                            <span class="${ratingClass} text-3xl font-bold mr-2">${place.rating}</span>
-                            <span class="text-gray-500">from ${place.reviews.toLocaleString()} reviews</span>
-                        </div>
-                        
-                        <p class="text-gray-600 mb-4">${place.description}</p>
-                        
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            ${place.reasons.map(reason => `
-                                <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded">
-                                    ${reason}
-                                </span>
-                            `).join('')}
-                        </div>
-                        
-                        <div class="flex space-x-3">
-                            <button class="flex-grow bg-primary hover:bg-primary-dark text-white font-medium py-2 px-4 rounded-lg transition duration-200">
-                                Add Review
-                            </button>
-                            <button class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-lg transition duration-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
-                                </svg>
-                            </button>
+                        <p class="text-gray-700 italic mb-4">"I used to fall for tourist traps all the time. Now I check this app before trying any new place. The 'Local Burger Joint' recommendation was incredible - exactly the kind of authentic experience I travel for!"</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Visited USA, April 2023</span>
                         </div>
                     </div>
                 </div>
-            `;
-        }
-    </script>
-</body>
-</html>
+            </div>
+        </section>
+
+        <section id="faq" class="py-16 md:py-24 bg-gray-50">
+            <div class="container mx-auto px-4 max-w-4xl">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Frequently Asked Questions</h2>
+                    <p class="mt-4 text-xl text-gray-600">Everything you need to know about Tourist Trap or Not.</p>
+                </div>
+                <div class="space-y-6">
+                    <details class="group bg-white rounded-2xl shadow-lg p-8">
+                        <summary class="flex cursor-pointer list-none items-center justify-between">
+                            <h3 class="text-xl font-semibold text-gray-900">How accurate are your ratings?</h3>
+                            <span class="ml-4 transition-transform group-open:rotate-180 text-gray-500 text-2xl">
+                                <i class="fas fa-chevron-down"></i>
+                            </span>
+                        </summary>
+                        <div class="mt-6 text-gray-600 space-y-4">
+                            <p>Our ratings are based on a combination of factors including:</p>
+                            <ul class="space-y-2 pl-5">
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span><strong>Price comparison</strong> - How prices compare to similar local establishments</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span><strong>Review analysis</strong> - Sentiment analysis from multiple review platforms</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span><strong>Local input</strong> - Contributions from verified local residents</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span><strong>Transparency</strong> - Menu pricing clarity and hidden fees</span>
+                                </li>
+                            </ul>
+                            <p>While no system is perfect, our algorithm has been shown to be 92% accurate when compared to expert travel recommendations.</p>
+                        </div>
+                    </details>
+                    <details class="group bg-white rounded-2xl shadow-lg p-8">
+                        <summary class="flex cursor-pointer list-none items-center justify-between">
+                            <h3 class="text-xl font-semibold text-gray-900">Can I contribute my own reviews?</h3>
+                            <span class="ml-4 transition-transform group-open:rotate-180 text-gray-500 text-2xl">
+                                <i class="fas fa-chevron-down"></i>
+                            </span>
+                        </summary>
+                        <div class="mt-6 text-gray-600 space-y-4">
+                            <p>Absolutely! We encourage all users to contribute their experiences. Here's how you can help:</p>
+                            <ul class="space-y-2 pl-5">
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span><strong>Rate places</strong> you've visited with our simple 5-star system</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span><strong>Write detailed reviews</strong> about your experience</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span><strong>Upload photos</strong> of the food, menu prices, and atmosphere</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span><strong>Verify information</strong> about existing listings</span>
+                                </li>
+                            </ul>
+                            <p>Local residents can apply for <strong>Verified Local</strong> status which gives their reviews additional weight in our algorithm.</p>
+                        </div>
+                    </details>
+                    <details class="group bg-white rounded-2xl shadow-lg p-8">
+                        <summary class="flex cursor-pointer list-none items-center justify-between">
+                            <h3 class="text-xl font-semibold text-gray-900">How do you prevent fake reviews?</h3>
+                            <span class="ml-4 transition-transform group-open:rotate-180 text-gray-500 text-2xl">
+                                <i class="fas fa-chevron-down"></i>
+                            </span>
+                        </summary>
+                        <div class="mt-6 text-gray-600 space-y-4">
+                            <p>We take review authenticity very seriously and employ multiple safeguards:</p>
+                            <ul class="space-y-2 pl-5">
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span><strong>Verified visits</strong> - We confirm users have actually been to locations through location verification</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span><strong>AI detection</strong> - Our algorithms detect patterns of fake or paid reviews</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-primary mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin
